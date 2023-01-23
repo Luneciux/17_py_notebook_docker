@@ -1,0 +1,118 @@
+
+
+------------------
+
+---> 1º trigger
+
+---> criando a funcao
+
+CREATE OR REPLACE FUNCTION add_qtd_avalicao_usuario()
+RETURNS TRIGGER AS 
+$$
+ 
+BEGIN
+	update 
+	usuario 
+	set qtd_avaliacoes = qtd_avaliacoes + 1 
+	where cod = NEW.cod_usuario;
+	return new; 
+END;
+$$
+LANGUAGE 'plpgsql';
+----------------
+
+
+---> criando o trigger
+
+
+create trigger add_qtd_avalicao_usuario_trigger
+after insert on review_usuario_estabelecimento
+for each row
+execute procedure add_qtd_avalicao_usuario();
+
+
+----------------
+
+
+
+---> inserir mais uma tupla pra verificar se funcionou mesmo
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Esse aí é top hein meu',
+	1,
+	256,
+	12,
+	10,
+	4
+);
+
+
+
+----------------
+
+
+---> e usar o insert pra ver as rows 
+
+select * from usuario;
+
+
+
+------------------------------------------------------------------------------------------------
+
+
+----> 2º trigger
+
+
+
+
+---> criando a funcao
+
+CREATE OR REPLACE FUNCTION add_qtd_comentario_usuario()
+RETURNS TRIGGER AS 
+$$
+ 
+BEGIN
+	update 
+	usuario 
+	set qtd_comentarios = qtd_comentarios + 1 
+	where cod = NEW.cod_usuario;
+	return new; 
+END;
+$$
+LANGUAGE 'plpgsql';
+----------------
+
+
+---> criando o trigger
+
+
+create trigger add_qtd_qtd_comentario_usuario_trigger
+after insert on review_usuario_estabelecimento
+for each row
+execute procedure add_qtd_comentario_usuario();
+
+
+----------------
+
+
+
+---> inserir mais uma tupla pra verificar se funcionou mesmo
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Oloco bicho, esse aí é fera hein meu',
+	1,
+	256,
+	12,
+	10,
+	4
+);
+
+
+
+----------------
+
+
+---> e usar o insert pra ver as rows 
+
+select * from usuario;
+

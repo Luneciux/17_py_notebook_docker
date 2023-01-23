@@ -1,0 +1,145 @@
+--Views do trabalho
+
+------------------------------------------------------------------------------------------------------------------------------
+
+
+--3.1 Quantas avaliações foram feitas para estabelecimento x?
+
+create or replace view qtd_avaliacoes_estabelecimento_X as(
+	select est.cod, est.nome, count (review.avalicao) from review_usuario_estabelecimento review, estabelecimento est
+	where review.cod_estabelecimento = est.cod
+	group by est.cod
+);
+
+select * from qtd_avaliacoes_estabelecimento_X;
+
+
+--3.2. Estabelecimento x tem qual nota de avaliação total?
+
+create or replace view avaliacao_total_estabelecimento_X as(
+	select est.cod, est.nome, sum(review.avalicao) from review_usuario_estabelecimento review, estabelecimento est
+	where review.cod_estabelecimento = est.cod
+	group by est.cod
+);
+
+
+select * from avaliacao_total_estabelecimento_X;
+
+
+
+
+--3.3. Estabelecimento x tem rampas apropriadas para a circulação de pessoas cadeirantes?
+
+create or replace view estabelecimento_x_tem_rampas as(
+	select est.cod,est.nome from estabelecimento est, tag , tag_estabelecimento tag_est
+	where est.cod = tag_est.cod_estabelecimento
+	and tag.cod = tag_est.cod_tag
+	and tag.cod = '4'
+	GROUP BY est.cod,est.nome
+);
+
+select * from estabelecimento_x_tem_rampas;
+
+
+
+--3.4. Estabelecimento x tem banheiros adaptados para cadeirantes?
+
+create or replace view estabelecimento_x_tem_banheiros_adaptados_para_cadeirantes as(
+	select est.cod,est.nome from estabelecimento est, tag , tag_estabelecimento tag_est
+	where est.cod = tag_est.cod_estabelecimento
+	and tag.cod = tag_est.cod_tag
+	and tag.cod = '5'
+	GROUP BY est.cod,est.nome
+);
+
+select * from estabelecimento_x_tem_banheiros_adaptados_para_cadeirantes;
+
+
+--3.5. Estabelecimento x tem profissionais treinados em libras para comunicação com deficientes auditivos em seus diversos graus?
+
+create or replace view estabelecimento_x_tem_profissionais_treinados_em_libras as(
+	select est.cod,est.nome from estabelecimento est, tag , tag_estabelecimento tag_est
+	where est.cod = tag_est.cod_estabelecimento
+	and tag.cod = tag_est.cod_tag
+	and tag.cod = '1'
+	GROUP BY est.cod,est.nome
+);
+
+select * from estabelecimento_x_tem_profissionais_treinados_em_libras;
+
+
+--3.6. Estabelecimento x tem cardápios com pictogramas para atender pessoas que têm TEA?
+
+create or replace view estabelecimento_x_tem_cardapios_com_pictogramas as(
+	select est.cod,est.nome from estabelecimento est, tag , tag_estabelecimento tag_est
+	where est.cod = tag_est.cod_estabelecimento
+	and tag.cod = tag_est.cod_tag
+	and tag.cod = '2'
+	GROUP BY est.cod,est.nome
+);
+
+select * from estabelecimento_x_tem_cardapios_com_pictogramas;
+
+
+
+--3.7. Estabelecimento x tem transcrita em braille para deficientes visuais em seus diversos graus?
+
+create or replace view estabelecimento_x_tem_transcrita_em_braile as(
+	select est.cod,est.nome from estabelecimento est, tag , tag_estabelecimento tag_est
+	where est.cod = tag_est.cod_estabelecimento
+	and tag.cod = tag_est.cod_tag
+	and tag.cod = '2'
+	GROUP BY est.cod,est.nome
+);
+
+select * from estabelecimento_x_tem_transcrita_em_braile;
+
+--3.8. Qual o nível de satisfação dos clientes do estabelecimento x?
+ 
+
+create or replace view nivel_de_satisfacao_dos_clientes_do_estabelecimento_x as(
+	
+	select est.cod, est.nome,  avg (review.avalicao) from review_usuario_estabelecimento review, estabelecimento est
+	where review.cod_estabelecimento = est.cod
+	group by est.cod
+
+);
+
+select * from nivel_de_satisfacao_dos_clientes_do_estabelecimento_x;
+
+
+
+--3.9. Qual a localização de estabelecimento x?
+
+create or replace view localizacao_estabelcimento_X as(
+	select cod , numero,rua,bairro,cidade,estado  from estabelecimento	
+);
+
+select * from localizacao_estabelcimento_X;
+
+
+--3.10.  Quantas avaliações positivas o estabelecimento x tem?
+
+create or replace view qtd_avaliacoes_positivas_estabelecimento_X as(
+	select est.cod, est.nome, review.avalicao,  count (review.avalicao) from review_usuario_estabelecimento review, estabelecimento est
+	where review.cod_estabelecimento = est.cod
+	and	review.avalicao = 1
+	group by est.cod, review.avalicao
+);
+
+select * from qtd_avaliacoes_positivas_estabelecimento_X;
+
+
+
+--3.11. Quantas avaliações negativas o estabelecimento x tem?
+
+
+create or replace view qtd_avaliacoes_negativas_estabelecimento_X as(
+	select est.cod, est.nome,  count (review.avalicao) from review_usuario_estabelecimento review, estabelecimento est
+	where review.cod_estabelecimento = est.cod
+	and	review.avalicao = 0
+	group by est.cod, review.avalicao
+);
+
+
+select * from qtd_avaliacoes_negativas_estabelecimento_X;

@@ -1,0 +1,507 @@
+set schema 'public';
+
+
+create table deficiencia(
+	cod serial primary key,
+	nome varchar(50) not null,
+	descricao text not null
+);
+
+create table lingua(
+
+ cod serial primary key,
+ nome varchar(50) not null,
+ descricao text not null
+);
+
+create table usuario( 
+
+	cod serial primary key,
+	nome varchar(50) not null,
+	qtd_comentarios integer not null ,
+	dt_criacao date not null,
+	foto text not null,
+	qtd_avaliacoes integer not null,
+	dt_nasc date not null
+);
+
+create table usuario_deficiencia( 
+	cod_deficiencia integer,
+	cod_usuario integer,
+	primary key (cod_deficiencia,cod_usuario),
+	foreign key (cod_deficiencia) references deficiencia(cod),
+	foreign key (cod_usuario) references usuario(cod)
+);
+
+create table usuario_lingua(
+	cod_lingua integer,
+	cod_usuario integer,
+	primary key (cod_lingua,cod_usuario),
+	foreign key (cod_lingua) references lingua(cod),
+	foreign key (cod_usuario) references usuario(cod)
+);
+
+
+create table tag(
+	cod serial primary key,
+	nome varchar(50) not null,
+	descricao text not null
+);
+
+create table estabelecimento(
+	
+	cod serial primary key,
+	nome varchar(50) not null,
+	tipo varchar(50) not null,
+	dt_criacao date not null,
+	numero integer not null,
+	rua varchar(50) not null,
+	bairro varchar(50) not null,
+	cidade varchar(50) not null,
+	estado varchar(50) not null
+);
+
+create table tag_estabelecimento(
+	
+	cod_tag integer,
+	cod_estabelecimento integer,
+	primary key(cod_tag,cod_estabelecimento),
+	foreign key (cod_tag) references tag(cod),
+	foreign key (cod_estabelecimento) references estabelecimento(cod)
+);
+
+create table review_usuario_estabelecimento(
+	cod serial primary key,
+	texto text not null,
+	avalicao integer not null,
+	up_votes integer not null,
+	down_votes integer not null,
+	cod_usuario integer,
+	cod_estabelecimento integer,
+	foreign key (cod_usuario) references usuario(cod),
+	foreign key (cod_estabelecimento) references estabelecimento(cod)
+);
+
+-- INSERT DAS DEFICIENCIAS QUE O USUÁRIO PODE TER
+
+insert into deficiencia (nome, descricao) values (
+	'deficiencia auditiva', 
+	'A deficiência auditiva consiste na perda parcial ou total da capacidade de detectar sons.'
+);
+
+insert into deficiencia (nome, descricao) values (
+	'deficiencia intelectual', 
+	'Deficiência intelectual é considerada um distúrbio do desenvolvimento neurológico, geralmente aparecem antes da idade escolar e prejudicam o desenvolvimento de aspectos pessoais, sociais, acadêmicos e/ou profissionais.'
+);
+
+insert into deficiencia (nome, descricao) values (
+	'deficiencia visual', 
+	'A deficiência visual é caracterizada como o comprometimento total ou parcial da capacidade visual de um ou ambos os olhos, que não consegue ser corrigida ou melhorada com o uso de lentes ou de tratamento clínico ou cirúrgico.'
+);
+
+insert into deficiencia (nome, descricao) values (
+	'transtorno do espectro autista', 
+	'O Transtorno do Espectro do Autismo (TEA) reúne desordens do desenvolvimento neurológico presentes desde o nascimento ou começo da infância Segundo o Manual Diagnóstico e Estatístico de Transtornos Mentais DSM-5, referência mundial de critérios para diagnósticos.'
+);
+
+insert into deficiencia (nome, descricao) values (
+	'sindrome de down', 
+	'A Síndrome de Down (SD) ou trissomia do 21 é uma condição humana geneticamente determinada, é a alteração cromossômica (cromossomopatia) mais comum em humanos e a principal causa de deficiência intelectual na população.'
+);
+
+
+-- INSERT DAS LINGUAS
+
+insert into lingua (nome, descricao) values (
+	'libras', 
+	'Libras é a sigla da Língua Brasileira de Sinais, uma língua de modalidade gestual-visual onde é possível se comunicar através de gestos, expressões faciais e corporais.'
+);
+
+insert into lingua (nome, descricao) values (
+	'braile', 
+	'Braile ou braille é um sistema de escrita tátil utilizado por pessoas cegas ou com baixa visão. É tradicionalmente escrito em papel relevo.'
+);
+
+
+-- INSERT DO USUARIO DADOS FICTICIOS SERÃO COLOCADOS, COMO 'URL' EM FOTO, QUE É UM DADO QUE SERIA ATUALIZADO QUANDO O USUÁRIO ESTIVESSE USANDO A APLICAÇÃO
+
+insert into usuario (nome, qtd_comentarios, dt_criacao, foto, qtd_avaliacoes, dt_nasc) values (
+	'Josué', 
+	0,
+	'23-03-2002',
+	'url',
+	0,
+	'23-03-2002'
+);
+
+insert into usuario (nome, qtd_comentarios, dt_criacao, foto, qtd_avaliacoes, dt_nasc) values (
+	'João', 
+	0,
+	'23-03-2002',
+	'url',
+	0,
+	'23-03-2002'
+);
+
+insert into usuario (nome, qtd_comentarios, dt_criacao, foto, qtd_avaliacoes, dt_nasc) values (
+	'Guilherme', 
+	0,
+	'23-03-2002',
+	'url',
+	0,
+	'23-03-2002'
+);
+
+insert into usuario (nome, qtd_comentarios, dt_criacao, foto, qtd_avaliacoes, dt_nasc) values (
+	'César', 
+	0,
+	'23-03-2002',
+	'url',
+	0,
+	'23-03-2002'
+);
+
+insert into usuario (nome, qtd_comentarios, dt_criacao, foto, qtd_avaliacoes, dt_nasc) values (
+	'Pedro', 
+	0,
+	'23-03-2002',
+	'url',
+	0,
+	'23-03-2002'
+);
+
+insert into usuario (nome, qtd_comentarios, dt_criacao, foto, qtd_avaliacoes, dt_nasc) values (
+	'Tiago', 
+	0,
+	'23-03-2002',
+	'url',
+	0,
+	'23-03-2002'
+);
+
+insert into usuario (nome, qtd_comentarios, dt_criacao, foto, qtd_avaliacoes, dt_nasc) values (
+	'Barnabé', 
+	0,
+	'23-03-2002',
+	'url',
+	0,
+	'23-03-2002'
+);
+
+insert into usuario (nome, qtd_comentarios, dt_criacao, foto, qtd_avaliacoes, dt_nasc) values (
+	'Azacarias', 
+	0,
+	'23-03-2002',
+	'url',
+	0,
+	'23-03-2002'
+);
+
+insert into usuario (nome, qtd_comentarios, dt_criacao, foto, qtd_avaliacoes, dt_nasc) values (
+	'Filemon', 
+	0,
+	'23-03-2002',
+	'url',
+	0,
+	'23-03-2002'
+);
+
+insert into usuario (nome, qtd_comentarios, dt_criacao, foto, qtd_avaliacoes, dt_nasc) values (
+	'Zeus', 
+	0,
+	'23-03-2002',
+	'url',
+	0,
+	'23-03-2002'
+);
+
+-- LINK DOS USUÁRIOS COM SUAS DEFICIENCIAS -> FEITO DENTRO DO SISTEMA NO MOMENTO DE CADASTRO
+
+insert into usuario_deficiencia (cod_deficiencia, cod_usuario) values 
+	(1, 1), 
+	(2, 1), 
+	(2, 2), 
+	(3, 3),
+	(5, 3),
+	(4, 4), 
+	(5, 5), 
+	(1, 6),
+	(2, 7),
+	(3, 8),
+	(4, 9),
+	(1, 9),
+	(5, 10); 
+	
+	
+-- LINK DOS USUÁRIOS COM SUAS LÍNGUAS
+
+insert into usuario_lingua (cod_lingua, cod_usuario) values 
+	(1, 1),   
+	(2, 5), 
+	(1, 6),
+	(1, 8),
+	(2, 9),
+	(1, 10); 
+	
+	
+-- INSERT DOS ESTABELECIMENTOS
+
+insert into estabelecimento (nome, tipo, dt_criacao, numero, rua, bairro, cidade, estado) values (
+	'Bolas Burguer',
+	'Hamburgueria',
+	'23-03-2002',
+	26,
+	'João das Chagas Filho',
+	'Zezerrote',
+	'Morada do Sul',
+	'Ceará'
+);
+
+insert into estabelecimento (nome, tipo, dt_criacao, numero, rua, bairro, cidade, estado) values (
+	'Crepe da Tia',
+	'Creperia',
+	'23-03-2002',
+	28,
+	'João das Chagas Sobrinho',
+	'Gume do Infinito',
+	'Velho novo',
+	'Ceará'
+);
+
+insert into estabelecimento (nome, tipo, dt_criacao, numero, rua, bairro, cidade, estado) values (
+	'Pizzanilo',
+	'Pizzaria',
+	'23-03-2002',
+	28,
+	'Zé das Dores',
+	'Warmog',
+	'Vem e vê',
+	'Ceará'
+);
+
+insert into estabelecimento (nome, tipo, dt_criacao, numero, rua, bairro, cidade, estado) values (
+	'Kart Mania',
+	'Pista de Kart',
+	'31-10-2002',
+	12,
+	'Samply de Guitarra',
+	'Couraça de Espinhos',
+	'Xablau',
+	'Ceará'
+);
+
+insert into estabelecimento (nome, tipo, dt_criacao, numero, rua, bairro, cidade, estado) values (
+	'Parufutso',
+	'Construções',
+	'21-08-2018',
+	119,
+	'Atarxerxes',
+	'Anel de Doran',
+	'Pumba la Pumba',
+	'Ceará'
+);
+
+insert into estabelecimento (nome, tipo, dt_criacao, numero, rua, bairro, cidade, estado) values (
+	'Pistola da Moda',
+	'Roupas',
+	'10-12-2002',
+	10,
+	'Dont u now',
+	'Presságio de Randuin',
+	'Catchau',
+	'Ceará'
+);
+
+insert into estabelecimento (nome, tipo, dt_criacao, numero, rua, bairro, cidade, estado) values (
+	'NENEM',
+	'Casa, Mesa e Banho',
+	'10-10-2015',
+	28,
+	'Ruan Dirarto',
+	'Escudo de Doran',
+	'Vai e fica',
+	'Ceará'
+);
+
+insert into estabelecimento (nome, tipo, dt_criacao, numero, rua, bairro, cidade, estado) values (
+	'Vape do Vape',
+	'Vapes e Acessórios',
+	'31-10-2002',
+	12,
+	'Creme de le Creme',
+	'Égide de Fogo',
+	'Saint Seya',
+	'Ceará'
+);
+
+insert into estabelecimento (nome, tipo, dt_criacao, numero, rua, bairro, cidade, estado) values (
+	'Peneirão',
+	'Construções',
+	'21-08-2010',
+	19,
+	'Blumenau',
+	'Abatedora',
+	'The Havior',
+	'Ceará'
+);
+
+insert into estabelecimento (nome, tipo, dt_criacao, numero, rua, bairro, cidade, estado) values (
+	'Spin',
+	'Brinquedos',
+	'10-12-2008',
+	100,
+	'Vendinha',
+	'Gema Ardente',
+	'Relampago Marquinhos',
+	'Ceará'
+);
+
+
+-- INSERT DAS TAGS
+
+insert into tag (nome, descricao) values (
+	'libras', 
+	'suporte ao uso da língua brasileira de sinais no atendimento'
+);
+
+insert into tag (nome, descricao) values (
+	'braile', 
+	'cardápios, menus ou outras comunicações em braile'
+);
+
+insert into tag (nome, descricao) values (
+	'pictogramas para TEA', 
+	'pictogramas otimizados para pessoas com TEA'
+);
+
+insert into tag (nome, descricao) values (
+	'rampas', 
+	'acessibilidade para pessoas cadeirantes'
+);
+
+insert into tag (nome, descricao) values (
+	'banheiros acessíveis', 
+	'banheiros de acordo com as normas de acessbilidade'
+);
+
+insert into tag (nome, descricao) values (
+	'cão guia', 
+	'lugar para ficar com o animal'
+);
+
+-- LINK DOS ESTABELECIMENTOS COM AS TAGS
+
+insert into tag_estabelecimento (cod_tag, cod_estabelecimento) values 
+	(1, 1),   
+	(1, 2), 
+	(1, 4),
+	(1, 5),
+	(1, 6),
+	(1, 7),
+	(1, 8),
+	(1, 9),
+	(1, 10);
+
+
+-- REVIEW DE UM USUÁRIO
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Estabelecimento muito bom',
+	1,
+	256,
+	12,
+	1,
+	1	
+);
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Estabelecimento muito ruim',
+	0,
+	256,
+	12,
+	1,
+	3	
+);
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Estabelecimento maneirinho',
+	1,
+	256,
+	12,
+	1,
+	4
+);
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Não gostei',
+	0,
+	256,
+	12,
+	3,
+	4
+);
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Estabelecimento muito bom',
+	1,
+	256,
+	12,
+	4,
+	1	
+);
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Estabelecimento muito ruim',
+	0,
+	256,
+	12,
+	5,
+	3	
+);
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Estabelecimento maneirinho',
+	1,
+	256,
+	12,
+	6,
+	4
+);
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Não gostei',
+	0,
+	256,
+	12,
+	7,
+	4
+);
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Estabelecimento muito ruim',
+	0,
+	256,
+	12,
+	8,
+	3	
+);
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Estabelecimento maneirinho',
+	1,
+	256,
+	12,
+	9,
+	4
+);
+
+insert into review_usuario_estabelecimento (texto, avalicao, up_votes, down_votes, cod_usuario, cod_estabelecimento) values (
+	'Não gostei',
+	0,
+	256,
+	12,
+	10,
+	4
+);
+
+select * from usuario
